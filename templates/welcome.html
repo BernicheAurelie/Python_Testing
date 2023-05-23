@@ -15,7 +15,11 @@
         {% endfor %}
        </ul>
     {% endif%}
+    {%if club['points']|int>0%}
     Points available: {{club['points']}}
+    {%else%}
+    You've no more points available!
+    {%endif%}
     <h3>Competitions:</h3>
     <ul>
         {% for comp in competitions%}

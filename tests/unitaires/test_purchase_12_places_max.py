@@ -40,3 +40,16 @@ def test_purchase_more_than_places_in_competition(mocker, client):
     assert response.status_code == 200
     assert b'Points available: 20' in response.data
     assert b"Sorry, there isn&#39;t enough places for the Competition 3" in response.data
+
+def test_purchase_places_without_places_required(mocker, client):
+    mocker_clubs(mocker)
+    mocker_competitions(mocker)
+    credentials = {
+        'competition': 'Competition 1',
+        'club': 'Club 1',
+        'places': ''
+        }
+    response = client.post('/purchasePlaces', data = credentials)
+    assert response.status_code == 200
+    assert b'Points available: 20' in response.data
+    assert b"You have to specify how many places you want to book, please try again" in response.data

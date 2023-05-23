@@ -1,4 +1,5 @@
 import json
+import datetime
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 
@@ -20,6 +21,11 @@ app.secret_key = 'something_special'
 competitions = loadCompetitions()
 clubs = loadClubs()
 
+# define today and render it in context
+def today():
+    today = datetime.datetime.now()
+    return today.strftime("%Y-%m-%d %H:%M:%S")
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -28,7 +34,7 @@ def index():
 def showSummary():
     try:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
-        return render_template('welcome.html',club=club,competitions=competitions)
+        return render_template('welcome.html',club=club,competitions=competitions, today=today())
     except IndexError:
         flash("Sorry this email doesn't exist in the club list")
         return render_template('index.html')
@@ -42,7 +48,7 @@ def book(competition,club):
         return render_template('booking.html',club=foundClub,competition=foundCompetition)
     else:
         flash("Something went wrong-please try again")
-        return render_template('welcome.html', club=club, competitions=competitions)
+        return render_template('welcome.html', club=club, competitions=competitions, today=today())
 
 
 @app.route('/purchasePlaces',methods=['POST'])
@@ -53,18 +59,18 @@ def purchasePlaces():
     placesRequired = int(request.form['places'])
     if placesRequired > int(competition['numberOfPlaces']):
         flash(f"Sorry, there isn't enough places for the {competition['name']}")
-        return render_template('welcome.html', club=club, competitions=competitions)
+        return render_template('welcome.html', club=club, competitions=competitions, today=today())
     elif placesRequired <= club_points_available and placesRequired<=12:
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
         club['points'] = club_points_available - placesRequired
         flash('Great-booking complete!')
-        return render_template('welcome.html', club=club, competitions=competitions)
+        return render_template('welcome.html', club=club, competitions=competitions, today=today())
     elif placesRequired>12:
         flash("Sorry, you can't book more than twelve places per competition")
-        return render_template('welcome.html', club=club, competitions=competitions)
+        return render_template('welcome.html', club=club, competitions=competitions, today=today())
     else:
         flash("Sorry, Club doesn't have enough available points")
-        return render_template('welcome.html', club=club, competitions=competitions)
+        return render_template('welcome.html', club=club, competitions=competitions, today=today())
 
 # TODO: Add route for points display
 

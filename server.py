@@ -21,7 +21,6 @@ app.secret_key = 'something_special'
 competitions = loadCompetitions()
 clubs = loadClubs()
 
-# define today and render it in context
 def today():
     today = datetime.datetime.now()
     return today.strftime("%Y-%m-%d %H:%M:%S")
@@ -39,7 +38,6 @@ def showSummary():
         flash("Sorry this email doesn't exist in the club list")
         return render_template('index.html')
 
-
 @app.route('/book/<competition>/<club>')
 def book(competition,club):
     foundClub = [c for c in clubs if c['name'] == club][0]
@@ -49,7 +47,6 @@ def book(competition,club):
     else:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions, today=today())
-
 
 @app.route('/purchasePlaces',methods=['POST'])
 def purchasePlaces():
@@ -72,8 +69,9 @@ def purchasePlaces():
         flash("Sorry, Club doesn't have enough available points")
         return render_template('welcome.html', club=club, competitions=competitions, today=today())
 
-# TODO: Add route for points display
-
+@app.route('/points',methods=['GET'])
+def showPoints():
+    return render_template('points.html', clubs=clubs)
 
 @app.route('/logout')
 def logout():

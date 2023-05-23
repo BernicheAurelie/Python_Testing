@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubs Points | GUDLFT Registration</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+	        border: 1px solid black;
+            padding:0.7em; 
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style='text-align: right'>Want's more informations : <a href="{{url_for('index')}}">Login</a>
+    </div>
+
+    <h2>Clubs' points:</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name:</th>
+                <th>Points available:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+            <tr>
+                <td>{{club['name']}}</td>
+                <td>{{club['points']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

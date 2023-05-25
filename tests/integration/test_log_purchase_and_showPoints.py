@@ -60,11 +60,11 @@ def test_log_purchase_and_showPoints(mocker, client):
     response_2 = client.post('/purchasePlaces', data = credentials)
     assert response_2.status_code == 200
     assert b'Great-booking complete!' in response_2.data
-    assert b'Points available: 18' in response_2.data
+    assert b'Points available: 14' in response_2.data
     with app.app_context():
         with client:
             response_3 = client.get('points', follow_redirects=True)
             assert request.path == "/points"
             assert response_3.status_code == 200
             assert b'Clubs Points' in response_3.data
-            assert b'<td>18</td>' in response_3.data
+            assert b'<td>14</td>' in response_3.data

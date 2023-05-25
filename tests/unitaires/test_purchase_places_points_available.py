@@ -12,7 +12,7 @@ def test_purchase_places_with_points_club_available(mocker, client):
         }
     response = client.post('/purchasePlaces', data = credentials)
     assert response.status_code == 200
-    assert b'Points available: 18' in response.data
+    assert b'Points available: 14' in response.data
     assert b'Great-booking complete!' in response.data
 
 def test_purchase_places_without_enough_points_club_available(mocker, client):
@@ -21,7 +21,7 @@ def test_purchase_places_without_enough_points_club_available(mocker, client):
     credentials = {
         'competition': 'Competition 1',
         'club': 'Club 3',
-        'places': '6'
+        'places': '2'
         }
     response = client.post('/purchasePlaces', data = credentials)
     print(response.data.decode())

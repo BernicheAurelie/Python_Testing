@@ -25,11 +25,11 @@ def test_showPoints_updated(mocker, client):
     credentials = {
         'competition': 'Competition 1',
         'club': 'Club 1',
-        'places': '10'
+        'places': '4'
         }
     purchase_places=client.post('/purchasePlaces', data = credentials)
     response = client.get('/points')
     assert b'Club 1' in response.data
-    assert b'<td>10</td>' in response.data
+    assert b'<td>8</td>' in response.data
     assert b'Club 2' in response.data
     assert b'<td>15</td>' in response.data

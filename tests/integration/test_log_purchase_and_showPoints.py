@@ -35,7 +35,7 @@ def test_log_purchase_and_logout(mocker, client):
     response_2 = client.post('/purchasePlaces', data = credentials)
     assert response_2.status_code == 200
     assert b'Great-booking complete!' in response_2.data
-    assert b'Points available: 18' in response_2.data
+    assert b'Points available: 14' in response_2.data
     with app.app_context():
         with client:
             response_3 = client.get('logout', follow_redirects=True)

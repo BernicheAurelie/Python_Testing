@@ -22,7 +22,6 @@ class ProjectPerfTest(HttpUser):
 
     @task
     def logout(self):
-        # response = self.client.get("/logout", follow_redirects=True)
         response = self.client.get("/logout")
 
 
@@ -51,4 +50,3 @@ class ProjectPerfTest(HttpUser):
     @task
     def book(self):
         response = self.client.get('/book/Spring%20Festival/Simply%20Lift')
-

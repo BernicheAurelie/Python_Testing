@@ -53,20 +53,24 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_points_available = int(club['points'])
-    placesRequired = int(request.form['places'])
-    if placesRequired > int(competition['numberOfPlaces']):
-        flash(f"Sorry, there isn't enough places for the {competition['name']}")
-        return render_template('welcome.html', club=club, competitions=competitions, today=today())
-    elif placesRequired <= club_points_available and placesRequired<=12:
-        competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-        club['points'] = club_points_available - placesRequired
-        flash('Great-booking complete!')
-        return render_template('welcome.html', club=club, competitions=competitions, today=today())
-    elif placesRequired>12:
-        flash("Sorry, you can't book more than twelve places per competition")
-        return render_template('welcome.html', club=club, competitions=competitions, today=today())
-    else:
-        flash("Sorry, Club doesn't have enough available points")
+    try:
+        placesRequired = int(request.form['places'])
+        if placesRequired > int(competition['numberOfPlaces']):
+            flash(f"Sorry, there isn't enough places for the {competition['name']}")
+            return render_template('welcome.html', club=club, competitions=competitions, today=today())
+        elif placesRequired <= (club_points_available/3) and placesRequired<=12:
+            competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+            club['points'] = club_points_available - placesRequired*3
+            flash('Great-booking complete!')
+            return render_template('welcome.html', club=club, competitions=competitions, today=today())
+        elif placesRequired>12:
+            flash("Sorry, you can't book more than twelve places per competition")
+            return render_template('welcome.html', club=club, competitions=competitions, today=today())
+        else:
+            flash("Sorry, Club doesn't have enough available points")
+            return render_template('welcome.html', club=club, competitions=competitions, today=today())
+    except ValueError:
+        flash("You have to specify how many places you want to book, please try again")
         return render_template('welcome.html', club=club, competitions=competitions, today=today())
 
 @app.route('/points',methods=['GET'])

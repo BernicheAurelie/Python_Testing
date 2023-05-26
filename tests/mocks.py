@@ -19,6 +19,16 @@ def mocker_clubs(mocker):
             "email": "club3@test.com",
             "points":"5"
             
+        },
+        {
+            "name":"Club 4",
+            "email": "club4@test.com",
+            "points":"50"
+        }, 
+        {
+            "name":"Club 5",
+            "email": "club5@test.com",
+            "points":"21"
         }])
 
 def mocker_competitions(mocker):

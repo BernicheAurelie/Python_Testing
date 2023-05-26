@@ -22,7 +22,9 @@ class ProjectPerfTest(HttpUser):
 
     @task
     def logout(self):
-        response = self.client.get("/logout", follow_redirects=True)
+        # response = self.client.get("/logout", follow_redirects=True)
+        response = self.client.get("/logout")
+
 
     @task
     def purchasePlaces(self):
@@ -35,21 +37,18 @@ class ProjectPerfTest(HttpUser):
             }
         response_2 = self.client.post('/purchasePlaces', data = credentials)
 
-    # @task
-    # def purchasePlacesWithoutPlacesRequired(self):
-    #     email = 'john@simplylift.co'
-    #     response = self.client.post('/showSummary', data={'email' : email})
-    #     credentials = {
-    #         'competition': 'Spring Festival',
-    #         'club': 'Simply Lift',
-    #         'places': ''
-    #         }
-    #     response_2 = self.client.post('/purchasePlaces', data = credentials)
+    @task
+    def purchasePlacesWithoutPlacesRequired(self):
+        email = 'john@simplylift.co'
+        response = self.client.post('/showSummary', data={'email' : email})
+        credentials = {
+            'competition': 'Spring Festival',
+            'club': 'Simply Lift',
+            'places': ''
+            }
+        response_2 = self.client.post('/purchasePlaces', data = credentials)
 
     @task
     def book(self):
         response = self.client.get('/book/Spring%20Festival/Simply%20Lift')
 
-    # @task
-    # def bookBadCompetition(self):
-    #     response = self.client.get('/book/CompetitionXX/Simply%20Lift')
